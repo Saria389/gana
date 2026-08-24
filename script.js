@@ -1,34 +1,47 @@
 // نظام تبديل لغة التعلم
-function setLanguage(lang) {
+function setLanguage(lang, event) {
     // إزالة التفعيل عن الأزرار
     document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
     
-    // إضافة التفعيل للزر المختار
-    event.target.classList.add('active');
+    // إضافة التفعيل للزر المختار بأمان
+    if (event && event.currentTarget) {
+        event.currentTarget.classList.add('active');
+    }
 
     const desc = document.getElementById('langDesc');
-    if(lang === 'jp') desc.innerText = "حالياً، أنت تستعرض محتوى اللغة اليابانية 🇯🇵";
-    if(lang === 'tr') desc.innerText = "حالياً، أنت تستعرض محتوى اللغة التركية 🇹🇷";
-    if(lang === 'en') desc.innerText = "حالياً، أنت تستعرض محتوى اللغة الإنجليزية 🇺🇸";
+    if (desc) {
+        if (lang === 'jp') desc.innerText = "حالياً، أنت تستعرض محتوى اللغة اليابانية 🇯🇵";
+        if (lang === 'tr') desc.innerText = "حالياً، أنت تستعرض محتوى اللغة التركية 🇹🇷";
+        if (lang === 'en') desc.innerText = "حالياً، أنت تستعرض محتوى اللغة الإنجليزية 🇺🇸";
+    }
     
-    // هنا يمكننا إضافة كود لتحميل محتوى اللغة المختار من ملف JSON
+    // حفظ اللغة المختارة
     localStorage.setItem('learningLang', lang);
 }
 
-// كود الصوتيات المطور من ملفك الأصلي
+// كود الصوتيات المطور
 let currentAudio = null;
 
 function playSound(soundName) {
-    const lang = localStorage.getItem('learningLang') || 'jp';
+    if (!soundName) return;
+
+    // Varsayılan dil 'jp'
+    const lang = (localStorage.getItem('learningLang') || 'jp').toLowerCase();
     
+    // Önceki çalan sesi durdur ve başa al
     if (currentAudio) {
         currentAudio.pause();
         currentAudio.currentTime = 0;
     }
 
-    // يبحث عن الصوت بناءً على اللغة المختارة (مثلاً: sounds/jp/ka.mp3)
-    currentAudio = new Audio(`sounds/${lang}/${soundName}.mp3`);
-    currentAudio.play().catch(e => console.log("ملف الصوت غير موجود لهذا المسار"));
+    // Klasör adı 'sounds' olarak ayarlandı
+    const audioPath = `sounds/${lang}/${soundName.trim()}.mp3`;
+    currentAudio = new Audio(audioPath);
+
+    currentAudio.play().catch(error => {
+        console.error("Ses çalınamadı! Aranan dosya yolu:", audioPath);
+        console.error("Hata ayrıntısı:", error);
+    });
 }
 
 // تفعيل ضغطة الحروف
