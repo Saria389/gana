@@ -1,0 +1,108 @@
+/* الألوان والأساسيات من تصميمك الأصلي */
+:root {
+    --main-orange: #ff5722;
+    --bg-light: #f4f6f8;
+    --shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    background: var(--bg-light);
+    margin: 0;
+    line-height: 1.85;
+    font-size: 17px;
+    direction: rtl; /* افتراضي عربي */
+}
+
+/* الهيدر المحسن */
+header {
+    background: #ffffff;
+    padding: 25px 20px;
+    border-bottom: 1px solid #eaeaea;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+header h1 {
+    font-size: 28px;
+    color: #333;
+    margin: 0;
+}
+
+/* نظام اختيار لغة التعلم */
+.lang-selector {
+    display: flex;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.lang-btn {
+    padding: 8px 15px;
+    border: 2px solid var(--main-orange);
+    background: white;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.lang-btn.active {
+    background: var(--main-orange);
+    color: white;
+}
+
+nav a {
+    margin: 0 10px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #4a4a4a;
+    font-weight: 600;
+    position: relative;
+}
+
+nav a:hover { color: var(--main-orange); }
+
+/* الأقسام والمستويات */
+section {
+    background: #ffffff;
+    padding: 30px;
+    margin: 20px auto;
+    max-width: 900px;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+}
+
+.level-box {
+    border-right: 5px solid var(--main-orange);
+    padding: 15px;
+    margin: 15px 0;
+    background: #fafafa;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.locked {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* الحروف والجمل من كودك الأصلي */
+.letter {
+    width: 75px; height: 90px;
+    background: white;
+    border-radius: 12px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    margin: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.letter:hover { transform: scale(1.1); border: 2px solid var(--main-orange); }
