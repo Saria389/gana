@@ -1,9 +1,7 @@
 // نظام تبديل لغة التعلم
 function setLanguage(lang, event) {
-    // إزالة التفعيل عن الأزرار
     document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
     
-    // إضافة التفعيل للزر المختار بأمان
     if (event && event.currentTarget) {
         event.currentTarget.classList.add('active');
     }
@@ -15,7 +13,6 @@ function setLanguage(lang, event) {
         if (lang === 'en') desc.innerText = "حالياً، أنت تستعرض محتوى اللغة الإنجليزية 🇺🇸";
     }
     
-    // حفظ اللغة المختارة
     localStorage.setItem('learningLang', lang);
 }
 
@@ -25,32 +22,35 @@ let currentAudio = null;
 function playSound(soundName) {
     if (!soundName) return;
 
-    // Varsayılan dil 'jp'
-    const lang = (localStorage.getItem('learningLang') || 'jp').toLowerCase();
-    
-    // Önceki çalan sesi durdur ve başa al
     if (currentAudio) {
         currentAudio.pause();
         currentAudio.currentTime = 0;
     }
 
-    // Klasör adı 'sounds' olarak ayarlandı
-    const audioPath = `sounds/${lang}/${soundName.trim()}.mp3`;
+    // تم تعديل المسار هنا ليتطابق مع اسم المجلد عندك (sond)
+    // إذا كانت الملفات مباشرة داخل sond:
+    const audioPath = `sond/${soundName.trim()}.mp3`;
+
+    // (ملاحظة: إذا كنت تضع داخل sond مجلد باسم jp، اجعل السطر هكذا:
+    // const audioPath = `sond/jp/${soundName.trim()}.mp3`; )
+
     currentAudio = new Audio(audioPath);
 
     currentAudio.play().catch(error => {
-        console.error("Ses çalınamadı! Aranan dosya yolu:", audioPath);
-        console.error("Hata ayrıntısı:", error);
+        console.error("لم يتم تشغيل الصوت! المسار المطلوب غير موجود:", audioPath);
+        console.error("تفاصيل الخطأ:", error);
     });
 }
 
-// تفعيل ضغطة الحروف
-document.querySelectorAll(".letter").forEach(letter => {
-    letter.addEventListener("click", () => {
-        const sound = letter.dataset.sound;
-        playSound(sound);
-        
-        document.querySelectorAll(".letter").forEach(l => l.classList.remove("active"));
-        letter.classList.add("active");
+// تفعيل الضغط بعد تحميل الصفحة بالكامل لضمان عملها
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".letter").forEach(letter => {
+        letter.addEventListener("click", () => {
+            const sound = letter.dataset.sound;
+            playSound(sound);
+            
+            document.querySelectorAll(".letter").forEach(l => l.classList.remove("active"));
+            letter.classList.add("active");
+        });
     });
 });
